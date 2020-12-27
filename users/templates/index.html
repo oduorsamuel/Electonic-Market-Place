@@ -1,0 +1,18 @@
+{% extends 'header.html'%}
+
+{% block content %}
+<h1>Users</h1>
+<div class="row">
+    {% for user in users %}
+    <div class="col-md-4">
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">user.name}}</h5>
+                <p class="card-text">${user.age}}</p>
+                <a href="#" class="btn btn-primary">Go somewhere</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{%endblock%}
