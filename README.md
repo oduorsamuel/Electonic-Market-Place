@@ -22,7 +22,7 @@
 - [x] git clone https://github.com/oduorsamuel/python_init.git
 
 #Activate vitual environment
-- [x] python3.6 -m venv .
+- [x] python3.7 -m venv .
 - [x] source bin/activate
 
 - [x] cd to project settings and set allowed host to * python_init/pyshop/settings.py
