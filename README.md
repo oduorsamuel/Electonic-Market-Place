@@ -43,28 +43,28 @@ Where virtual environment was activated install gunicorn (hello_django/)
 
 - [x] add the following
 
-NAME="hello_app"
-DJANGODIR=/home/ubuntu/hello_django/python_init
-SOCKFILE=/home/ubuntu/hello_django/run/gunicorn.sock
-USER=ubuntu
-GROUP=ubuntu
-NUM_WORKERS=3
-DJANGO_SETTINGS_MODULE=pyshop.settings
-DJANGO_WSGI_MODULE=pyshop.wsgi
-echo "Starting $NAME as `whoami`"
-cd $DJANGODIR
-source ../bin/activate
-export DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE
-export PYTHONPATH=$DJANGODIR:$PYTHONPATH
-RUNDIR=$(dirname $SOCKFILE)
-test -d $RUNDIR || mkdir -p $RUNDIR
-exec ../bin/gunicorn ${DJANGO_WSGI_MODULE}:application \
---name $NAME \
---workers $NUM_WORKERS \
---user=$USER --group=$GROUP \
---bind=unix:$SOCKFILE \
---log-level=debug \
---log-file=-
+NAME="hello_app" <br />
+DJANGODIR=/home/ubuntu/hello_django/python_init <br />
+SOCKFILE=/home/ubuntu/hello_django/run/gunicorn.sock <br />
+USER=ubuntu <br />
+GROUP=ubuntu <br />
+NUM_WORKERS=3 <br />
+DJANGO_SETTINGS_MODULE=pyshop.settings <br />
+DJANGO_WSGI_MODULE=pyshop.wsgi <br />
+echo "Starting $NAME as `whoami`" <br />
+cd $DJANGODIR <br />
+source ../bin/activate <br />
+export DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE <br />
+export PYTHONPATH=$DJANGODIR:$PYTHONPATH <br />
+RUNDIR=$(dirname $SOCKFILE) <br />
+test -d $RUNDIR || mkdir -p $RUNDIR <br />
+exec ../bin/gunicorn ${DJANGO_WSGI_MODULE}:application \<br />
+--name $NAME \<br />
+--workers $NUM_WORKERS \ <br />
+--user=$USER --group=$GROUP \ <br />
+--bind=unix:$SOCKFILE \ <br />
+--log-level=debug \ <br />
+--log-file=- <br />
 
 #ADDING PERMISSON
 - [x] sudo chmod u+x bin/gunicorn_start
@@ -91,26 +91,26 @@ exec ../bin/gunicorn ${DJANGO_WSGI_MODULE}:application \
 upstream hello_app_server {
 server unix:/home/ubuntu/hello_django/run/gunicorn.sock fail_timeout=0;
 }
-server {
-listen   80;
-server_name example.com;
-client_max_body_size 4G;
-access_log /home/ubuntu/hello_django/logs/nginx-access.log;
-error_log /home/ubuntu/hello_django/logs/nginx-error.log;
-location / {
-proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-proxy_set_header Host $http_host;
-proxy_redirect off;
-if (!-f $request_filename) {
-proxy_pass http://hello_app_server;
-break;
-}
-}
-error_page 500 502 503 504 /500.html;
-location = /500.html {
-root /home/ubuntu/hello_django/static/;
-}
-}
+server { <br />
+listen   80; <br />
+server_name example.com; <br />
+client_max_body_size 4G; <br />
+access_log /home/ubuntu/hello_django/logs/nginx-access.log; <br />
+error_log /home/ubuntu/hello_django/logs/nginx-error.log; <br />
+location / { <br />
+proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for; <br />
+proxy_set_header Host $http_host; <br />
+proxy_redirect off; <br />
+if (!-f $request_filename) { <br />
+proxy_pass http://hello_app_server; <br />
+break; <br />
+} <br />
+} <br />
+error_page 500 502 503 504 /500.html; <br />
+location = /500.html { <br />
+root /home/ubuntu/hello_django/static/; <br />
+} <br />
+} <br />
 
 # create symbolic link
 - [x] sudo ln -s /etc/nginx/sites-available/hello /etc/nginx/sites-enabled/hello
