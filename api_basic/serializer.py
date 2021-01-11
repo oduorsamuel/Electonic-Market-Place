@@ -13,7 +13,8 @@ class ArticleSerializer(serializers.ModelSerializer):
 class LoveSerializer(serializers.ModelSerializer):
     class Meta:
         model = Love
-        fields = ['name']
+        # fields = ['name', 'date']
+        fields = '__all__'
 # def create(self, validated_data):
 #     return Articles.objects.create(validated_data)
 #
