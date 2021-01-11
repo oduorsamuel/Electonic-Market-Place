@@ -1,7 +1,7 @@
 from abc import ABC
 
 from rest_framework import serializers
-from .models import Articles
+from .models import Articles, Love
 
 
 class ArticleSerializer(serializers.ModelSerializer):
@@ -9,6 +9,11 @@ class ArticleSerializer(serializers.ModelSerializer):
         model = Articles
         fields = ['id', 'title', 'author']
 
+
+class LoveSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Love
+        fields = ['name']
 # def create(self, validated_data):
 #     return Articles.objects.create(validated_data)
 #

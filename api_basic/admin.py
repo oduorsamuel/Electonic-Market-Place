@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Articles
+from .models import Articles, Love
 
 
 # class ArticleAdmin(admin.ModelAdmin):
@@ -7,5 +7,6 @@ from .models import Articles
 
 
 admin.site.register(Articles)
+admin.site.register(Love)
 
 # Register your models here.
