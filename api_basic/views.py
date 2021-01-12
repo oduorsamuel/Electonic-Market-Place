@@ -8,9 +8,54 @@ from rest_framework.response import Response
 
 from .models import Articles, Love
 from .serializer import ArticleSerializer, LoveSerializer
+from rest_framework.views import APIView
 
 
 # Create your views here.
+# class bassed views
+
+class LoveData(APIView):
+    def get(self, request):
+        love = Love.objects.all()
+        serializer = LoveSerializer(love, many=True)
+        # return JsonResponse(serializer.data, safe=False)
+        return Response(serializer.data)
+
+    def post(self, request):
+        serializer = LoveSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+class LoveDetails(APIView):
+    def get_object(self, pk):
+        try:
+            return Love.objects.get(pk=pk)
+        except Love.DoesNotExist:
+            return HttpResponse(status=status.HTTP_404_NOT_FOUND)
+
+    def get(self, request, pk):
+        love = self.get_object(pk)
+        serializer = LoveSerializer(love)
+        return Response(serializer.data)
+
+    def put(self, request, pk):
+        love = self.get_object(pk)
+        serializer = LoveSerializer(love, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk):
+        love = self.get_object(pk)
+        love.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+# Function based views
 # @csrf_exempt
 @api_view(['GET', 'POST'])
 def article_list(request):
@@ -62,7 +107,7 @@ def get_one_love(request, pk):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
-        return Response(serializer.errors, status= status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     elif request.method == 'DELETE':
         love.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
