@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from rest_framework import status
+from rest_framework import status, generics, mixins
 from rest_framework.decorators import api_view
 from rest_framework.parsers import JSONParser
 from rest_framework.response import Response
@@ -12,8 +12,30 @@ from rest_framework.views import APIView
 
 
 # Create your views here.
-# class bassed views
+# //Generic api views
+class Generic(generics.GenericAPIView, mixins.ListModelMixin, mixins.CreateModelMixin,
+              mixins.UpdateModelMixin, mixins.RetrieveModelMixin, mixins.DestroyModelMixin):
+    serializer_class = LoveSerializer
+    queryset = Love.objects.all()
+    lookup_field = 'pk'
 
+    def get(self, request, pk=None):
+        if pk:
+            return self.retrieve(request)
+        else:
+            return self.list(request)
+
+    def post(self, request):
+        return self.create(request)
+
+    def put(self, request, pk=None):
+        return self.update(request, pk)
+
+    def delete(self, request, pk):
+        return self.destroy(request, pk)
+
+
+# class bassed views
 class LoveData(APIView):
     def get(self, request):
         love = Love.objects.all()
