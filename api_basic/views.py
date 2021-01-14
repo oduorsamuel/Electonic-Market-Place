@@ -9,6 +9,8 @@ from rest_framework.response import Response
 from .models import Articles, Love
 from .serializer import ArticleSerializer, LoveSerializer
 from rest_framework.views import APIView
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
 
 
 # Create your views here.
@@ -18,6 +20,8 @@ class Generic(generics.GenericAPIView, mixins.ListModelMixin, mixins.CreateModel
     serializer_class = LoveSerializer
     queryset = Love.objects.all()
     lookup_field = 'pk'
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, pk=None):
         if pk:
