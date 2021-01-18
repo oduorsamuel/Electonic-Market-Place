@@ -11,9 +11,42 @@ from .serializer import ArticleSerializer, LoveSerializer
 from rest_framework.views import APIView
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
+from rest_framework import viewsets
+from django.shortcuts import get_object_or_404
 
 
-# Create your views here.
+# ViewSet
+
+class LoveViewSet(viewsets.ViewSet):
+    def list(self, request):
+        love = Love.objects.all()
+        serializer = LoveSerializer(love, many=True)
+        # return JsonResponse(serializer.data, safe=False)
+        return Response(serializer.data)
+
+    def create(self, request):
+        serializer = LoveSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+    def retrieve(self, request, pk=None):
+        queryset = Love.objects.all()
+        love = get_object_or_404(queryset, pk=pk)
+        serializer = LoveSerializer(love)
+        # return JsonResponse(serializer.data, safe=False)
+        return Response(serializer.data)
+
+    def update(self, request, pk=None):
+        love = Love.objects.get(pk=pk)
+        serializer = LoveSerializer(love, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 # //Generic api views
 class Generic(generics.GenericAPIView, mixins.ListModelMixin, mixins.CreateModelMixin,
               mixins.UpdateModelMixin, mixins.RetrieveModelMixin, mixins.DestroyModelMixin):
