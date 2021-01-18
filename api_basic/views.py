@@ -24,6 +24,11 @@ class GenericViewSet(viewsets.GenericViewSet, mixins.ListModelMixin,
     queryset = Love.objects.all()
 
 
+class ModalViewSet(viewsets.ModelViewSet):
+    serializer_class = LoveSerializer
+    queryset = Love.objects.all()
+
+
 # viewset
 class LoveViewSet(viewsets.ViewSet):
     def list(self, request):
