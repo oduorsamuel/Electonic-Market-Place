@@ -16,7 +16,15 @@ from django.shortcuts import get_object_or_404
 
 
 # ViewSet
+# //Generic viewset
+class GenericViewSet(viewsets.GenericViewSet, mixins.ListModelMixin,
+                     mixins.CreateModelMixin, mixins.UpdateModelMixin,
+                     mixins.RetrieveModelMixin, mixins.DestroyModelMixin):
+    serializer_class = LoveSerializer
+    queryset = Love.objects.all()
 
+
+# viewset
 class LoveViewSet(viewsets.ViewSet):
     def list(self, request):
         love = Love.objects.all()
