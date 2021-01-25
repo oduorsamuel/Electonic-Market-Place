@@ -5,10 +5,23 @@ from django.shortcuts import render
 
 def index(request):
     products = Products.objects.all()
+    print(products)
     return render(request, 'index.html', {'products': products})
 
 
-def new(request):
-    return HttpResponse('New product')
+def shop(request):
+    return render(request, 'shop.html')
+
+
+def blog(request):
+    return render(request, 'blog.html')
+
+
+def about(request):
+    return render(request, 'about.html')
+
+
+def contact(request):
+    return render(request, 'contact.html')
 
 # Create your views here.
