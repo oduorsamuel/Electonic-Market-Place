@@ -29,7 +29,7 @@ class Brand(models.Model):
 
 class Products(models.Model):
     name = models.CharField(max_length=255)
-    details = models.CharField(max_length=80000)
+    details = models.CharField(max_length=255)
     price = models.CharField(max_length=255)
     old_price = models.CharField(max_length=250)
     file = models.CharField(max_length=250)
